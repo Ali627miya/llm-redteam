@@ -1,0 +1,5 @@
+bin/
+report.html
+report.json
+.git
+website/node_modules

@@ -1,0 +1,15 @@
+# Add to .gitlab-ci.yml or include from this file.
+redteam:
+  image: golang:1.22-bookworm
+  stage: test
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.go
+  before_script:
+    - cd redteam && go build -o redteam ./cmd/redteam
+  script:
+    - cd redteam
+    - ./redteam run --config examples/redteam-mock.yaml --output report.json --format json --mock
+  artifacts:
+    when: always
+    paths:
+      - redteam/report.json

@@ -1,0 +1,20 @@
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# Go / redteam
+redteam/bin/
+redteam/report.html
+redteam/report.json
+redteam/dist/
+
+# Node (TS integration)
+redteam/integrations/typescript/node_modules/
+redteam/integrations/typescript/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp

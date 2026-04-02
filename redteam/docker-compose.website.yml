@@ -1,0 +1,9 @@
+# Local “buyer demo” — static site at http://localhost:8080
+# Run from repo: docker compose -f redteam/docker-compose.website.yml up --build
+services:
+  demo-site:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./website:/usr/share/nginx/html:ro

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redteam — LLM security testing for shipping teams</title>
+  <meta name="description" content="Open-source CLI to probe LLM apps for prompt injection, jailbreaks, data leakage, and unsafe outputs — before production." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080b10;
+      --surface: #0f1419;
+      --card: #121820;
+      --border: #243044;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #3ee8b5;
+      --accent-dim: rgba(62, 232, 181, 0.15);
+      --warn: #ffb86a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-optical-sizing: auto;
+    }
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      z-index: 0;
+    }
+    .wrap { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+    header {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--accent); }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+    }
+    nav a:hover { color: var(--text); }
+    .hero {
+      padding: 4rem 0 3rem;
+    }
+    .badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 2.85rem);
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 1rem;
+      max-width: 18ch;
+    }
+    .lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 2rem;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #04120d;
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-ghost {
+      border-color: var(--border);
+      color: var(--text);
+      background: transparent;
+    }
+    .btn-ghost:hover { border-color: var(--muted); }
+    .terminal {
+      margin-top: 3rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    }
+    .terminal-bar {
+      padding: 0.5rem 1rem;
+      background: #0a0e14;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 10px; height: 10px; border-radius: 50%; background: #39465a; }
+    .terminal pre {
+      margin: 0;
+      padding: 1.25rem;
+      overflow-x: auto;
+      color: #c5d4e8;
+      line-height: 1.55;
+    }
+    .terminal .c { color: var(--muted); }
+    .terminal .g { color: var(--accent); }
+    .terminal .w { color: var(--warn); }
+    section { padding: 3.5rem 0; border-top: 1px solid var(--border); }
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.35rem;
+    }
+    .card h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .path {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 0.5rem;
+      align-items: center;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+    @media (max-width: 700px) {
+      .path { grid-template-columns: 1fr; }
+      .path .arrow { transform: rotate(90deg); }
+    }
+    .path strong { display: block; color: var(--text); font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .path .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .path .arrow { color: var(--accent); font-family: "JetBrains Mono", monospace; }
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="wrap">
+    <header>
+      <div class="logo">llm-<span>redteam</span></div>
+      <nav>
+        <a href="sample-report.html">Sample report</a>
+        <a href="#model">Business model</a>
+        <a href="https://github.com/Ali627miya/llm-redteam" rel="noopener">GitHub</a>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div class="badge">OPEN CORE · CLI + CI · HTTP-PLUGGABLE</div>
+      <h1>Test LLM apps for real security risks — before users do.</h1>
+      <p class="lead">
+        A fast, local scanner with curated attack prompts, leakage checks, and exportable HTML/JSON reports.
+        No proxy. No lock-in. A clear path to managed SaaS when teams need history, schedules, and governance.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="sample-report.html">View sample security report</a>
+        <a class="btn btn-ghost" href="#install">Install &amp; run</a>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>ci · redteam scan</span>
+        </div>
+        <pre><span class="c"># One-shot local demo (mock API + HTML report)</span>
+<span class="g">./scripts/run-local.sh</span>
+
+<span class="c"># Or CI-safe dry run (no network)</span>
+<span class="g">./bin/redteam run</span> --config examples/redteam-mock.yaml \
+  --output report.json --format json --mock --fail-on-findings
+
+<span class="w">Scan complete:</span> 10 attacks, 10 clean, 0 with findings, 0 errors</pre>
+      </div>
+    </div>
+
+    <section id="why">
+      <h2>Why teams buy this story</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Developer-native</h3>
+          <p>Single binary, YAML config, GitHub Actions in the box. Security shifts left without a new traffic path.</p>
+        </div>
+        <div class="card">
+          <h3>Evidence, not vibes</h3>
+          <p>Structured JSON for tooling plus human-readable HTML for security reviews and buyer due diligence.</p>
+        </div>
+        <div class="card">
+          <h3>Room to monetize</h3>
+          <p>Give the engine away; sell dashboards, run history, org policies, SSO, and compliance exports.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="model">
+      <h2>Open core → cloud → enterprise</h2>
+      <div class="path">
+        <div class="box"><strong>Phase 1</strong> OSS CLI &amp; attack packs</div>
+        <span class="arrow">→</span>
+        <div class="box"><strong>Phase 2</strong> Hosted runs, trends, alerts</div>
+        <span class="arrow">→</span>
+        <div class="box"><strong>Phase 3</strong> SSO, custom packs, audit exports</div>
+      </div>
+    </section>
+
+    <section id="install">
+      <h2>Try it locally (2 minutes)</h2>
+      <div class="card">
+        <p style="color:var(--text); margin-bottom:1rem;">Requires <strong>Go 1.22+</strong> (e.g. <code style="color:var(--accent)">brew install go</code>).</p>
+        <pre style="margin:0;background:#010409;border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#c5d4e8;overflow-x:auto;">cd redteam
+go build -o bin/redteam ./cmd/redteam
+./bin/redteam run --config examples/redteam-mock.yaml --output demo.html --format html --mock</pre>
+        <p style="margin-top:1rem;color:var(--muted);font-size:0.9rem;">See <code style="color:var(--accent)">DEMO.md</code> in the repo for a short live-demo script for buyers.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <strong>llm-redteam</strong> — by <a href="https://github.com/Ali627miya" rel="noopener">Ali627miya</a>.
+        MIT license. Not a substitute for a full penetration test or formal certification.
+      </p>
+      <p style="margin-top:0.75rem;">Deploy this folder to <a href="https://vercel.com">Vercel</a>, <a href="https://netlify.com">Netlify</a>, or GitHub Pages — see <a href="../DEMO.md">DEMO.md</a>.</p>
+    </footer>
+  </div>
+</body>
+</html>

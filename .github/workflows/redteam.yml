@@ -1,0 +1,43 @@
+# Run when this repo root contains the `redteam/` module. If `redteam` is the repo root, copy this file to
+# `.github/workflows/redteam.yml` and set all `working-directory` / artifact paths to `.`.
+
+name: LLM Red Team
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  redteam:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Build redteam
+        working-directory: redteam
+        run: go build -o redteam ./cmd/redteam
+
+      - name: Run scan (mock)
+        working-directory: redteam
+        run: |
+          ./redteam run \
+            --config examples/redteam-mock.yaml \
+            --output report.json \
+            --format json \
+            --mock \
+            --fail-on-findings
+          head -c 2000 report.json
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: redteam-report
+          path: redteam/report.json
+

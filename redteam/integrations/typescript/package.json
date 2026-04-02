@@ -1,0 +1,23 @@
+{
+  "name": "@llm-redteam/sdk",
+  "version": "0.1.0",
+  "description": "Spawn the redteam CLI from Node for CI and scripts (path to binary or REDTEAM_BIN).",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/llm-redteam/redteam"
+  }
+}
