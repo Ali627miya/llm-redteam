@@ -16,7 +16,7 @@ Use this when presenting **llm-redteam** to prospects, investors, or security bu
 
 1. Push the repo to GitHub (or GitLab).
 2. [Vercel](https://vercel.com) → New Project → import the repo.
-3. Set **Root Directory** to `redteam/website` (if the repo root is `LLM PROJECT`, use `redteam/website`).
+3. Set **Root Directory** to `redteam/website`.
 4. Framework preset: **Other** (static). Deploy.
 
 Custom domain: Project → Settings → Domains.

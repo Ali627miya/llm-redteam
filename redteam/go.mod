@@ -1,4 +1,4 @@
-module github.com/llm-redteam/redteam
+module github.com/Ali627miya/llm-redteam/redteam
 
 go 1.22
 

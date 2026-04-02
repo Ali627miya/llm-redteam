@@ -1,0 +1,17 @@
+# Anthropic Messages API — set ANTHROPIC_API_KEY in the environment.
+version: 1
+
+target:
+  url: https://api.anthropic.com/v1/messages
+  method: POST
+  headers:
+    x-api-key: ${ANTHROPIC_API_KEY}
+    anthropic-version: "2023-06-01"
+    Content-Type: application/json
+  body_template: |
+    {"model":"claude-3-5-haiku-20241022","max_tokens":1024,"messages":[{"role":"user","content":{{toJSON .Prompt}}}]}
+  response_path: content.0.text
+
+run:
+  timeout_seconds: 120
+  concurrency: 2

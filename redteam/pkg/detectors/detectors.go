@@ -3,8 +3,8 @@ package detectors
 import (
 	"strings"
 
-	"github.com/llm-redteam/redteam/pkg/config"
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/config"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // Analyze runs enabled detectors on the model response for one attack.

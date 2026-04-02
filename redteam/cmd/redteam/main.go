@@ -9,11 +9,11 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/llm-redteam/redteam/internal/version"
-	"github.com/llm-redteam/redteam/pkg/attacks"
-	"github.com/llm-redteam/redteam/pkg/config"
-	"github.com/llm-redteam/redteam/pkg/report"
-	"github.com/llm-redteam/redteam/pkg/runner"
+	"github.com/Ali627miya/llm-redteam/redteam/internal/version"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/attacks"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/config"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/report"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/runner"
 )
 
 func main() {

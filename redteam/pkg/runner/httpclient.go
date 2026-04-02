@@ -11,7 +11,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/llm-redteam/redteam/pkg/config"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/config"
 )
 
 type bodyVars struct {

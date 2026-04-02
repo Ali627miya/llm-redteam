@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Redteam — LLM security testing for shipping teams</title>
-  <meta name="description" content="Open-source CLI to probe LLM apps for prompt injection, jailbreaks, data leakage, and unsafe outputs — before production." />
+  <title>LLM Red Team — security testing for LLM apps</title>
+  <meta name="description" content="LLM Red Team — automatically test your LLM apps for prompt injection, jailbreaks, and data leaks. Open-source CLI, CI-friendly." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -47,6 +47,14 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand img { width: 36px; height: 36px; border-radius: 8px; }
     .logo {
       font-family: "JetBrains Mono", monospace;
       font-weight: 500;
@@ -197,9 +205,13 @@
   <div class="noise" aria-hidden="true"></div>
   <div class="wrap">
     <header>
-      <div class="logo">llm-<span>redteam</span></div>
+      <a class="brand" href="index.html" aria-label="Home">
+        <img src="logo.svg" width="36" height="36" alt="" />
+        <div class="logo">llm-<span>redteam</span></div>
+      </a>
       <nav>
         <a href="sample-report.html">Sample report</a>
+        <a href="https://github.com/Ali627miya/llm-redteam/releases" rel="noopener">Releases</a>
         <a href="#model">Business model</a>
         <a href="https://github.com/Ali627miya/llm-redteam" rel="noopener">GitHub</a>
       </nav>
@@ -207,7 +219,7 @@
 
     <div class="hero">
       <div class="badge">OPEN CORE · CLI + CI · HTTP-PLUGGABLE</div>
-      <h1>Test LLM apps for real security risks — before users do.</h1>
+      <h1>LLM Red Team — automatically test your LLM apps for prompt injection, jailbreaks, and data leaks.</h1>
       <p class="lead">
         A fast, local scanner with curated attack prompts, leakage checks, and exportable HTML/JSON reports.
         No proxy. No lock-in. A clear path to managed SaaS when teams need history, schedules, and governance.

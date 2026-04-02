@@ -3,7 +3,7 @@ package detectors
 import (
 	"strings"
 
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // Blocklist is a minimal stand-in for a toxicity classifier; swap for Perspective API in cloud SKU.

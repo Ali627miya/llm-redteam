@@ -3,7 +3,7 @@ package detectors
 import (
 	"strings"
 
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // jailbreakHeuristic treats compliance with obvious jailbreak framing as a finding (tunable).

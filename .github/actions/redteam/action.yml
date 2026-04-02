@@ -1,0 +1,58 @@
+name: LLM Red Team scan
+description: Install redteam from this repo (Go toolchain) and run a configured scan in CI
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  go-version:
+    description: Go version for go install
+    required: false
+    default: "1.22"
+  ref:
+    description: Git ref for go install (tag e.g. v0.1.0, or branch)
+    required: false
+    default: main
+  working-directory:
+    description: Directory containing redteam.yaml
+    required: false
+    default: .
+  config:
+    description: Path to config file (relative to working-directory unless absolute)
+    required: true
+  extra-args:
+    description: Extra CLI flags e.g. --mock --fail-on-findings
+    required: false
+    default: "--mock --fail-on-findings"
+  report-name:
+    description: Artifact name for JSON report
+    required: false
+    default: redteam-report
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+
+    - name: Add GOPATH/bin to PATH
+      shell: bash
+      run: echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+    - name: Install redteam
+      shell: bash
+      run: |
+        go install "github.com/Ali627miya/llm-redteam/redteam/cmd/redteam@${{ inputs.ref }}"
+
+    - name: Run scan
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -x
+        redteam run --config "${{ inputs.config }}" --output report.json --format json ${{ inputs.extra-args }}
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.report-name }}
+        path: ${{ inputs.working-directory }}/report.json

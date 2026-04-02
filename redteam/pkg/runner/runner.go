@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/llm-redteam/redteam/pkg/config"
-	"github.com/llm-redteam/redteam/pkg/detectors"
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/config"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/detectors"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // Invoker calls the application under test. HTTPInvoke implements this for real targets.

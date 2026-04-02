@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 //go:embed library/*.yaml

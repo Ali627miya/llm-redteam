@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: redteam
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: redteam/go.mod
+          cache-dependency-path: redteam/go.sum
+
+      - name: Verify module
+        run: go mod verify
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build CLI
+        run: go build -o /tmp/redteam ./cmd/redteam
+
+      - name: Smoke
+        run: /tmp/redteam version && /tmp/redteam list | head -3

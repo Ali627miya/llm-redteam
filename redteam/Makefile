@@ -4,7 +4,7 @@ MOCKBIN ?= bin/mocktarget
 .PHONY: build build-mock test run-mock run-list clean
 
 build:
-	go build -ldflags "-X github.com/llm-redteam/redteam/internal/version.Version=dev" -o $(BINARY) ./cmd/redteam
+	go build -ldflags "-X github.com/Ali627miya/llm-redteam/redteam/internal/version.Version=dev" -o $(BINARY) ./cmd/redteam
 
 build-mock:
 	go build -o $(MOCKBIN) ./cmd/mocktarget

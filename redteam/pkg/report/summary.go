@@ -1,7 +1,7 @@
 package report
 
 import (
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // BuildSummary counts outcomes for a scan report.

@@ -1,0 +1,16 @@
+# Local Ollama OpenAI-compatible endpoint (default: http://127.0.0.1:11434)
+# Run: ollama serve && ollama pull llama3.2
+version: 1
+
+target:
+  url: http://127.0.0.1:11434/v1/chat/completions
+  method: POST
+  headers:
+    Content-Type: application/json
+  body_template: |
+    {"model":"llama3.2","messages":[{"role":"user","content":{{toJSON .Prompt}}}],"stream":false}
+  response_path: choices.0.message.content
+
+run:
+  timeout_seconds: 300
+  concurrency: 1

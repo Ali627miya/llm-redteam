@@ -9,7 +9,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // ParseAttackYAML parses a single attack pack file and assigns IDs using idPrefix (usually file stem).

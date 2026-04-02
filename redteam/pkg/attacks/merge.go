@@ -3,7 +3,7 @@ package attacks
 import (
 	"strings"
 
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // LoadAll returns built-in attacks (unless skipBuiltin) plus every YAML file under extraDirs (recursive).

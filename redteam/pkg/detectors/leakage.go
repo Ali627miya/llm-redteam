@@ -3,7 +3,7 @@ package detectors
 import (
 	"strings"
 
-	"github.com/llm-redteam/redteam/pkg/models"
+	"github.com/Ali627miya/llm-redteam/redteam/pkg/models"
 )
 
 // detectContextLeakage flags when long secret substrings from context reappear in the answer.
